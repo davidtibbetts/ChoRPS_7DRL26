@@ -1,10 +1,6 @@
 //! Game project.
 use fyrox::{
-    core::pool::Handle, core::visitor::prelude::*, core::reflect::prelude::*,
-    event::Event,
-    gui::message::UiMessage,
-    plugin::{Plugin, PluginContext, PluginRegistrationContext},
-    scene::Scene,
+    core::{pool::Handle, reflect::prelude::*, visitor::prelude::*}, dpi::PhysicalSize, engine::GraphicsContext, event::Event, gui::message::UiMessage, plugin::{Plugin, PluginContext, PluginRegistrationContext}, scene::Scene
 };
 use std::path::Path;
 
@@ -65,5 +61,17 @@ impl Plugin for Game {
         _context: &mut PluginContext,
     ) {
         self.scene = scene;
+    }
+
+    fn on_graphics_context_initialized(
+            &mut self,
+            #[allow(unused_variables)] context: PluginContext,
+        ) {
+       
+       if let GraphicsContext::Initialized(ref graphics_context) = context.graphics_context {
+            graphics_context.window.set_title("ChoRPS 7DRL26");
+            graphics_context.window.set_resizable(false);
+            let _ = graphics_context.window.request_inner_size(PhysicalSize::new(1920, 1080));
+       }
     }
 }
